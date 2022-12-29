@@ -1,10 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { PrismaClient } from "@prisma/client"
-import { User } from '@prisma/client'
+import { User, Account, PrismaClient } from "@prisma/client"
+
+type ResponseType = {
+  id: number,
+  name: string,
+  accounts: Account[]
+}
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<User>
+  res: NextApiResponse<ResponseType>
 ) {
   const { userName } = req.query
   if (!userName || Array.isArray(userName)) return res.status(400) 
@@ -20,9 +25,20 @@ export default async function handler(
       return null
     })
 
+    const accounts = await prisma.account.findMany({
+      where: {
+        holderName: userName
+      }
+    })
+
     if (user) {
       console.log(user)
-      return res.status(200).send(user)
+      console.log(accounts)
+      return res.status(200).send({
+        id: user.id,
+        name: user.name,
+        accounts: accounts
+      })
     }
   } else if (req.method === "POST") {
     // register, need key
