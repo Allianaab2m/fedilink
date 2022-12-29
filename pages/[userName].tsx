@@ -2,7 +2,7 @@ import { NextPage } from "next"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
-const userPage: NextPage = () => {
+const UserPage: NextPage = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const { query, isReady, push } = useRouter()
   const { userName } = query
@@ -24,4 +24,5 @@ const userPage: NextPage = () => {
     <p>{userName}</p>
   )
 }
-export default userPage
+
+export default UserPage
