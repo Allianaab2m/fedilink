@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { User, Account, PrismaClient } from "@prisma/client"
+import { Account, PrismaClient } from "@prisma/client"
 
-type ResponseType = {
+export type UserApiResponseType = {
   id: number,
   name: string,
   accounts: Account[]
@@ -9,7 +9,7 @@ type ResponseType = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
+  res: NextApiResponse<UserApiResponseType>
 ) {
   const { userName } = req.query
   if (!userName || Array.isArray(userName)) return res.status(400) 
